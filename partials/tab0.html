@@ -1,0 +1,16 @@
+<div id="gridContainer"></div>
+
+<script>
+	$("#gridContainer").dxDataGrid({
+	    dataSource: verkefni,
+	    paging: {
+	        pageSize: 10
+	    },
+	    pager: {
+	        showPageSizeSelector: true,
+	        allowedPageSizes: [5, 10, 20]
+	    },
+	    columns: ['Navn', 'Kunde', 'State', 'Phone', 'Fax']
+	});     	
+</script>
+   
