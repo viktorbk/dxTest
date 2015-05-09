@@ -1,13 +1,27 @@
 <div id="gridContainer"></div>
 
 <script>
-	var verkefni = [
+	var prosjekter = [
 		{
-			Name: 'Launavernd'
+			Id: 1,
+			Navn: 'Samskiptakerfi',
+			Kunde: 'Vörðu hf',
+			Starter: '1.5.2015',
+			Slutter: '1.7.2015',
+			Timer: 445
+		},
+		{
+			Id: 2,
+			Navn: 'Launavernd',
+			Kunde: 'Vörðu hf',
+			Starter: '1.5.2015',
+			Slutter: '1.7.2015',
+			Timer: 445
 		}
-	]
+	];
+	
 	$("#gridContainer").dxDataGrid({
-	    dataSource: verkefni,
+	    dataSource: prosjekter,
 	    paging: {
 	        pageSize: 10
 	    },
@@ -15,7 +29,40 @@
 	        showPageSizeSelector: true,
 	        allowedPageSizes: [5, 10, 20]
 	    },
-	    columns: ['Navn', 'Kunde', 'State', 'Phone', 'Fax']
-	});     	
+	    columns: ['Navn', 'Kunde', {dataField: 'Starter', format: 'date', width: 90}, {dataField: 'Slutter', format: 'date', width: 90}, {dataField: 'Timer', width: 90}],
+		masterDetail: {
+	        enabled: true,
+	        template: function(container, options) {
+	            container.addClass("internal-grid-container");
+	            $('<div>')
+	                .addClass("internal-grid")
+	                .dxDataGrid(getTimar(options.key)).appendTo(container);
+	        }
+		}
+	});
+	
+	var timar = [{
+		Id: 1,
+		Prosjekt: 1,
+		Fra: '1.5.2015 10:11',
+		Til: '1.5.2015 12:13'
+	}];
+	
+	function getTimar(key) {
+		debugger;
+		var currentProject = prosjekter[key - 1];
+		var settings = {
+            columnAutoWidth: true,
+            columns: [{
+				caption:'Prosjekt', 
+				calculateCellValue: function(rowData) {
+                    return 'kuka';
+                }},
+				{dataField: 'Fra', dataType: 'date'}, {dataField: 'Til', dataType: 'date'}
+           	],
+            dataSource: timar
+        };
+		return settings;
+	}
 </script>
    

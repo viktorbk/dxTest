@@ -1,31 +1,29 @@
 
-$(function() {    
-    var viewModel = function(){
-    	var that = this;
-    	
-    	that.selectedIndex = ko.observable(0);
-    	that.itemCount = tabPanelItems.length;
-    	
-    	that.tabPanelOptions = {
-    		height: function(){ return 400 + "px"; },
-    		dataSource: tabPanelItems,
-    		selectedIndex: that.selectedIndex,
-    		loop: true,
-    		animationEnabled: true,
-    		swipeEnabled: true,
-    		titleTemplate: "title",
-    		itemTemplate: "customer",
-    		onSelectionChanged: selChanged,
-            onContentReady: load(0)
-        };
+var vbkApp = angular.module('vbkApp', [ 'dx' ]);
+
+vbkApp.controller('MainController', function($scope) {
+    $scope.selectedIndex = 0;
+    $scope.tabPanelOptions = {
+    	height: function(){ return 400 + "px"; },
+    	dataSource: tabPanelItems,
+        //selectedIndex: $scope.selectedIndex,
+    	loop: true,
+    	animationEnabled: true,
+    	swipeEnabled: true,
+    	titleTemplate: "title",
+    	itemTemplate: "customer",
+    	onSelectionChanged: function() {
+            debugger;
+            var tab = $("#mainTab").dxTabPanel("instance");
+            var idx = tab._options.tabIndex;
+            load(idx);       
+        },
+        onContentReady: load(0)
     };
-    ko.applyBindings(new viewModel(), document.getElementById("tabpanel"));
 });
 
-function selChanged(e) {
-    var tab = e.model.selectedIndex();
-    load(tab);
-}
+$(function() {
+});
 
 function load(tab) {
     //debugger;
